@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract ShapeAreaCalculator {
     // Function to calculate the area of a triangle
     function calculateTriangleArea(uint256 base, uint256 height) public pure returns (uint256) {
-        return (base * height) / 2;
+        return (base * height) / (1+1);
     }
 
     // Function to calculate the area of a rectangle
