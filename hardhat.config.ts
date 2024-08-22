@@ -1,24 +1,37 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-etherscan";
-import { config as dotEnvConfig } from "dotenv";
+import "@nomicfoundation/hardhat-toolbox";
+import "@typechain/hardhat";
+import * as dotenv from "dotenv";
 
-dotEnvConfig();
+// Load environment variables from .env file
+dotenv.config();
 
-const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY || "";
+const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
 const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY || "";
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.0",
-  networks: {
-    sepolia: {
-      url: `https://sepolia.infura.io/v3/${ALCHEMY_API_KEY}`,
-      accounts: [SEPOLIA_PRIVATE_KEY]
+  solidity: {
+    version: "0.8.24",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
     }
   },
+  networks: {
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [`0x${SEPOLIA_PRIVATE_KEY}`],
+    },
+  },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY || ""
-  }
+    apiKey: process.env.ETHERSCAN_API_KEY || "",
+  },
+  typechain: {
+    outDir: "typechain",
+    target: "ethers-v6",
+  },
 };
 
 export default config;
